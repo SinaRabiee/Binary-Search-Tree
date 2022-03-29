@@ -205,6 +205,50 @@ bool BST::delete_node(int value)
     return false;
 }
 
+BST::BST(const BST& bst)
+    : root { nullptr }
+{
+    std::vector<int> values;
+    bst.bfs([&](BST::Node*& node) { values.push_back(node->value); });
+    for (auto i = (values.begin()); i != values.end(); ++i)
+        this->add_node(*i);
+    values.clear();
+}
+
+BST::BST(BST&& bst)
+{
+    root = bst.get_root();
+    bst.root = nullptr;
+}
+
+BST& BST::operator=(const BST& bst)
+{
+    if (this == &bst)
+        return *this;
+    delete this->root;
+    std::vector<int> values;
+    bst.bfs([&values](BST::Node*& node) { values.push_back(node->value); });
+    for (auto i = (values.begin()); i != values.end(); ++i)
+        this->add_node(*i);
+    return *this;
+}
+
+BST& BST::operator=(BST&& bst)
+{
+    delete root;
+    root = bst.root;
+    bst.root = nullptr;
+    return *this;
+}
+
+BST::~BST()
+{
+    std::vector<Node*> nodes;
+    bfs([&nodes](BST::Node*& node) { nodes.push_back(node); });
+    for (auto& node : nodes)
+        delete node;
+}
+
 
 BST::Node::Node(int value, Node* left, Node* right)
     : value { value }
