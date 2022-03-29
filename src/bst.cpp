@@ -53,7 +53,6 @@ bool BST::add_node(int value)
                 } else
                     changingNode = changingNode->right;
             }
-
             if (value < (changingNode->value)) {
                 if (changingNode->left == nullptr) {
                     changingNode->left = newNode;
@@ -61,7 +60,6 @@ bool BST::add_node(int value)
                 } else
                     changingNode = changingNode->left;
             }
-
             if (value == (changingNode->value))
                 return false;
         }
@@ -73,9 +71,10 @@ BST::Node** BST::find_node(int value) const
     BST::Node** movingNode { new BST::Node* };
     (*movingNode) = root;
     while (true) {
-        if ((*movingNode) == nullptr)
+        if ((*movingNode) == nullptr) {
+            std::cout << "The value does not exist in the Tree" << std::endl;
             return nullptr;
-        else {
+        } else {
             if ((*movingNode)->value == value)
                 return movingNode;
             else if (value > (*movingNode)->value)
@@ -89,11 +88,8 @@ BST::Node** BST::find_node(int value) const
 BST::Node** BST::find_parrent(int value) const
 {
 
-    if (BST::find_node(value) == nullptr) {
-        std::cout << "The value does not exist in the Tree" << std::endl;
+    if (BST::find_node(value) == nullptr)
         return nullptr;
-    }
-
     BST::Node** movingNode { new BST::Node* };
     (*movingNode) = root;
     while (true) {
@@ -111,10 +107,9 @@ BST::Node** BST::find_parrent(int value) const
 BST::Node** BST::find_successor(int value) const
 {
     BST::Node** movingNode { new BST::Node* };
-    if (BST::find_node(value) == nullptr) {
-        std::cout << "The value does not exist in the Tree" << std::endl;
+    if (BST::find_node(value) == nullptr)
         return nullptr;
-    } else {
+    else {
         (*movingNode) = *this->find_node(value);
         if ((*movingNode)->left == nullptr) {
             return movingNode;
@@ -131,7 +126,6 @@ BST::Node** BST::find_successor(int value) const
 bool BST::delete_node(int value)
 {
     auto removing { this->find_node(value) };
-
     if (removing == nullptr)
         return false;
 
