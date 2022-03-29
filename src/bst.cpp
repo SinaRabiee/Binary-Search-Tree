@@ -305,12 +305,12 @@ BST::Node::Node(const Node& node)
     , right { node.right }
 {
 }
-/*
+
 std::partial_ordering BST::Node::operator<=>(int V) const
 {
     return this->value <=> V;
 }
-*/
+
 bool BST::Node::operator==(int V) const
 {
     return this->value ==  V;

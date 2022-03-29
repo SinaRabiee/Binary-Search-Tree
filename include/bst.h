@@ -1,7 +1,7 @@
 #ifndef BST_H
 #define BST_H
 
-//#include <compare>
+#include <compare>
 #include <functional>
 #include <initializer_list>
 #include <iomanip>
@@ -42,7 +42,7 @@ public:
     Node(int value, Node* left, Node* right);
     Node();
     Node(const Node& node);
-    //std::partial_ordering operator<=>(int V) const;
+    std::partial_ordering operator<=>(int V) const;
     bool operator==(int V) const;
     friend std::ostream& operator<<(std::ostream& os, const BST::Node& N);
 
