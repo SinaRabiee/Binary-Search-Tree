@@ -128,6 +128,84 @@ BST::Node** BST::find_successor(int value) const
     }
 }
 
+bool BST::delete_node(int value)
+{
+    auto removing { this->find_node(value) };
+
+    if (removing == nullptr)
+        return false;
+
+    auto removingSuc { this->find_successor(value) };
+    size_t flag {};
+    if ((*removing)->right == nullptr)
+        flag++;
+    if ((*removing)->left == nullptr)
+        flag++;
+
+    if (flag == 2) {
+        auto removingPar { this->find_parrent(value) };
+        if ((*removingPar)->right != nullptr && (*removingPar)->right->value == value) {
+            delete *removing;
+            (*removingPar)->right = nullptr;
+            return true;
+        } else if ((*removingPar)->left != nullptr && (*removingPar)->left->value == value) {
+            delete *removing;
+            (*removingPar)->left = nullptr;
+            return true;
+        }
+    } else if (flag == 1) {
+        if (*removing == this->get_root()) {
+            if ((*removing)->right != nullptr) {
+                (*removing)->value = (*removing)->right->value;
+                auto tempR { (*removing)->right->right };
+                auto tempL { (*removing)->right->left };
+                delete (*removing)->right;
+                (*removing)->right = tempR;
+                (*removing)->left = tempL;
+                return true;
+            } else if ((*removing)->left != nullptr) {
+                (*removing)->value = (*removing)->left->value;
+                auto tempR { (*removing)->left->right };
+                auto tempL { (*removing)->left->left };
+                delete (*removing)->left;
+                (*removing)->right = tempR;
+                (*removing)->left = tempL;
+                return true;
+            }
+        } else {
+            auto removingPar { this->find_parrent(value) };
+            if ((*removingPar)->right != nullptr && (*removingPar)->right->value == value) {
+                if ((*removing)->right != nullptr) {
+                    auto temp { (*removing)->right };
+                    delete *removing;
+                    (*removingPar)->right = temp;
+                    return true;
+                }
+            } else if ((*removingPar)->left != nullptr && (*removingPar)->left->value == value) {
+                if ((*removing)->left != nullptr) {
+                    auto temp { (*removing)->left };
+                    delete *removing;
+                    (*removingPar)->left = temp;
+                    return true;
+                }
+            }
+        }
+    } else if (flag == 0) {
+        auto removingSP { this->find_parrent((*removingSuc)->value) };
+        (*removing)->value = (*removingSuc)->value;
+        delete *removingSuc;
+        if ((*removingSP)->right != nullptr && (*removingSP)->right->value == (*removingSuc)->value) {
+            (*removingSP)->right = nullptr;
+            return true;
+        } else if ((*removingSP)->left != nullptr && (*removingSP)->left->value == (*removingSuc)->value) {
+            (*removingSP)->left = nullptr;
+            return true;
+        }
+    }
+    return false;
+}
+
+
 BST::Node::Node(int value, Node* left, Node* right)
     : value { value }
     , left { left }
