@@ -249,6 +249,22 @@ BST::~BST()
         delete node;
 }
 
+const BST& BST::operator++() const
+{
+    std::vector<Node*> nodes;
+    bfs([&nodes](BST::Node*& node) { nodes.push_back(node); });
+    for (auto& node : nodes)
+        node->value++;
+    return *this;
+}
+
+const BST BST::operator++(int) const
+{
+    BST B { *this };
+    ++(*this);
+    return B;
+}
+
 
 BST::Node::Node(int value, Node* left, Node* right)
     : value { value }
