@@ -265,6 +265,18 @@ const BST BST::operator++(int) const
     return B;
 }
 
+std::ostream& operator<<(std::ostream& os, const BST& B)
+{
+    std::vector<BST::Node*> nodes;
+    B.bfs([&nodes](BST::Node*& node) { nodes.push_back(node); });
+    size_t count { B.length() };
+    os << std::string(30, '*') << std::endl;
+    for (auto i = nodes.begin(); i != nodes.end(); ++i)
+        os << **i << std::endl;
+    os << std::string(30, '*') << std::endl;
+    os << "Binary Search tree size: " << count << std::endl;
+    return os;
+}
 
 BST::Node::Node(int value, Node* left, Node* right)
     : value { value }
