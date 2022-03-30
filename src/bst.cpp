@@ -9,13 +9,11 @@ void BST::bfs(std::function<void(Node*& node)> func) const
 {
     std::vector<BST::Node*> nodes;
     BST::Node* movingNode { root };
-    std::vector<int> val;
     if (movingNode == nullptr)
         std::cout << "BST is empty" << std::endl;
     else {
         nodes.push_back(movingNode);
         while (!nodes.empty()) {
-            val.push_back(nodes[0]->value);
             func(nodes[0]);
             nodes.erase(nodes.begin());
             if (movingNode->left != nullptr) {
@@ -223,6 +221,14 @@ BST::BST(BST&& bst)
     bst.root = nullptr;
 }
 
+BST::~BST()
+{
+    std::vector<Node*> nodes;
+    bfs([&nodes](BST::Node*& node) { nodes.push_back(node); });
+    for (auto& node : nodes)
+        delete node;
+}
+
 BST& BST::operator=(const BST& bst)
 {
     if (this == &bst)
@@ -241,14 +247,6 @@ BST& BST::operator=(BST&& bst)
     root = bst.root;
     bst.root = nullptr;
     return *this;
-}
-
-BST::~BST()
-{
-    std::vector<Node*> nodes;
-    bfs([&nodes](BST::Node*& node) { nodes.push_back(node); });
-    for (auto& node : nodes)
-        delete node;
 }
 
 const BST& BST::operator++() const

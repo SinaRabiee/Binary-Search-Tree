@@ -4,10 +4,9 @@
 #include <compare>
 #include <functional>
 #include <initializer_list>
+#include <string>
 #include <iomanip>
 #include <iostream>
-#include <string>
-#include <algorithm>
 #include <vector>
 
 class BST {
