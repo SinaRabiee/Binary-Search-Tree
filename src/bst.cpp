@@ -135,15 +135,20 @@ bool BST::delete_node(int value)
         flag++;
 
     if (flag == 2) {
-        auto removingPar { this->find_parrent(value) };
-        if ((*removingPar)->right != nullptr && (*removingPar)->right->value == value) {
+        if (root->value = value)
+        {
+            root = nullptr;
+        } else {
+            auto removingPar { this->find_parrent(value) };
+            if ((*removingPar)->right != nullptr && (*removingPar)->right->value == value) {
             delete *removing;
             (*removingPar)->right = nullptr;
             return true;
-        } else if ((*removingPar)->left != nullptr && (*removingPar)->left->value == value) {
-            delete *removing;
-            (*removingPar)->left = nullptr;
-            return true;
+            } else if ((*removingPar)->left != nullptr && (*removingPar)->left->value == value) {
+                delete *removing;
+                (*removingPar)->left = nullptr;
+                return true;
+            }
         }
     } else if (flag == 1) {
         if (*removing == this->get_root()) {

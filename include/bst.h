@@ -21,6 +21,7 @@ public:
     Node** find_parrent(int value) const;
     Node** find_successor(int value) const;
     bool delete_node(int value);
+    BST() = default;
     BST(std::initializer_list<int> nodes);
     BST(const BST& bst);
     BST(BST&& bst);
